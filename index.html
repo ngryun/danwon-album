@@ -55,17 +55,6 @@ a{color:var(--rose)}
 .hj{font-family:var(--f-hanja)}
 
 /* ---------- 시작 화면 ---------- */
-.title-screen{padding-block:24px 64px}
-.title-hero{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:3/1;max-width:100%;background:var(--panel)}
-.title-hero canvas{display:block;width:100%;height:100%;object-fit:cover;transform:scale(1.05)}
-@media (prefers-reduced-motion:no-preference){.title-hero canvas{animation:drift 38s ease-in-out infinite alternate}}
-@keyframes drift{from{transform:scale(1.06) translateX(-1.6%)}to{transform:scale(1.06) translateX(1.6%)}}
-.title-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:44px;margin-top:34px;align-items:start}
-@media (max-width:820px){.title-grid{grid-template-columns:minmax(0,1fr);gap:28px}}
-.game-title{font-family:var(--f-display);font-weight:400;font-size:clamp(2.7rem,8vw,4.8rem);line-height:1.02;margin:0}
-.game-title .fr{display:block;font-family:var(--f-hanja);font-weight:600;font-size:clamp(1rem,2.3vw,1.3rem);color:var(--rose);margin-top:12px;letter-spacing:.04em}
-.story{max-width:60ch;font-size:1.06rem;display:grid;gap:12px;margin-top:22px}
-.story p{margin:0}
 .facts-line{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:22px;color:var(--muted);font-size:.92rem}
 .facts-line b{color:var(--text);font-weight:400;font-family:var(--f-mono);font-size:.9rem}
 .start-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;display:grid;gap:14px}
@@ -400,11 +389,63 @@ body:not(.three) .vignette,body:not(.three) .hud,body:not(.three) .ui3d,body:not
 .fade.white{background:#f4ead4}
 .ui3d{position:fixed;inset:0;z-index:3;pointer-events:none}
 .ui3d>*{pointer-events:auto}
-.t3d{position:absolute;inset:0;overflow-y:auto;background:linear-gradient(90deg,rgba(22,18,14,.9) 0,rgba(22,18,14,.68) 40%,rgba(22,18,14,0) 68%)}
-.t3d-in{max-width:580px;display:grid;gap:26px;padding:max(36px,env(safe-area-inset-top,0px)) max(20px,env(safe-area-inset-right,0px)) max(36px,env(safe-area-inset-bottom,0px)) max(32px,env(safe-area-inset-left,0px))}
-.t3d .game-title{text-shadow:0 4px 30px rgba(0,0,0,.5)}
-.t3d .start-card{background:rgba(37,35,31,.88);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
-@media (max-width:760px){.t3d{background:linear-gradient(0deg,rgba(22,18,14,.96) 0,rgba(22,18,14,.82) 62%,rgba(22,18,14,.1) 100%)}.t3d-in{padding-top:34vh;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}}
+.t3d{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden}
+/* ---------- 시작 화면: 어두운 먹 안개 속 한지, 제첨에 쓴 제목과 낙관 ---------- */
+.ttl{--pad:28px;position:relative;max-width:1500px;min-height:100vh;min-height:100dvh;margin:0 auto;display:grid;gap:16px 36px;align-content:start;padding:max(var(--pad),env(safe-area-inset-top,0px)) max(var(--pad),env(safe-area-inset-right,0px)) max(var(--pad),env(safe-area-inset-bottom,0px)) max(var(--pad),env(safe-area-inset-left,0px))}
+.ttl-defs{position:absolute;width:0;height:0;overflow:hidden}
+.ttl-hero{grid-area:hero;position:relative;min-width:0;min-height:0}
+.ttl-ph{position:absolute;background:#d9cfbb;box-shadow:0 0 50px rgba(232,220,196,.14);transition:opacity .5s ease}
+.ttl.live .ttl-ph{opacity:0}
+.ttl-cv{position:absolute;inset:0;width:100%;height:100%;display:block}
+.ttl-slip{grid-area:slip;justify-self:start;align-self:start;position:relative;display:flex;align-items:center;gap:18px;padding:12px 20px 14px 26px;background:#e5dbc4;color:#1c1712;border-radius:3px 2px 3px 2px;box-shadow:0 0 0 1px rgba(0,0,0,.3),0 18px 44px rgba(0,0,0,.5),0 0 60px rgba(229,219,196,.08)}
+.ttl-slip::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .5  0 0 0 0 .45  0 0 0 0 .38  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");mix-blend-mode:multiply;opacity:.45}
+.ttl .game-title{position:relative;z-index:1;font-family:var(--f-display);font-weight:400;font-size:clamp(2.5rem,5.4vw,4.3rem);line-height:1.12;margin:0;color:#1c1712;letter-spacing:.01em;text-shadow:0 0 1px rgba(28,23,18,.55),0 0 7px rgba(28,23,18,.16)}
+.ttl-seal{--s:52px;position:relative;z-index:1;flex:none;display:grid;place-content:center;width:var(--s);height:var(--s);background:#b8352a;color:#fff4e6;font:900 calc(var(--s)*.36)/1.02 var(--f-hanja);border-radius:2px;box-shadow:inset 0 0 0 calc(var(--s)*.05) #b8352a,inset 0 0 0 calc(var(--s)*.1) #fff4e6;transform:rotate(-3deg);-webkit-mask-image:var(--worn,none);mask-image:var(--worn,none);-webkit-mask-size:100% 100%;mask-size:100% 100%}
+.ttl-seal i{font-style:normal;display:block;text-align:center}
+.ttl-sub{grid-area:sub;display:grid;gap:2px}
+.ttl-sub p{margin:0}
+.ttl-sub .fr{font-family:var(--f-hanja);font-weight:600;font-size:clamp(1rem,1.9vw,1.25rem);color:var(--rose);letter-spacing:.05em}
+.ttl-quote{font-family:var(--f-hand);font-size:1.75rem;line-height:1.3;color:var(--rose-hi)}
+.ttl-note{grid-area:note;display:grid;gap:10px;max-width:46ch;align-self:start;padding-left:16px;border-left:1px solid rgba(229,138,104,.4);font-size:.95rem;line-height:1.75;color:#c8bea9}
+.ttl-note p{margin:0}
+.ttl .facts-line{grid-area:facts;margin:0;align-self:start;font-size:.88rem;gap:6px 16px}
+.ttl-card{grid-area:card;align-self:start;background:rgba(13,11,9,.66);border:1px solid rgba(241,233,219,.1);box-shadow:0 22px 60px rgba(0,0,0,.4)}
+.ttl-card input{background:rgba(8,7,6,.7)}
+.ttl.lay-wide{grid-template-columns:minmax(0,1fr) minmax(0,1.1fr) minmax(300px,.95fr);grid-template-areas:"hero hero hero" "slip slip card" "sub note card" "facts note card"}
+.ttl.lay-wide .ttl-hero{height:min(48vh,calc((min(100vw,1500px) - 56px) / 3.75))}
+.ttl.lay-mid{grid-template-columns:minmax(290px,.8fr) minmax(0,1.2fr);grid-template-rows:repeat(5,auto) 1fr;grid-template-areas:"slip hero" "sub hero" "card hero" "note hero" "facts hero" ". hero"}
+.ttl.lay-mid .ttl-hero{position:sticky;top:var(--pad);align-self:start;height:calc(100vh - 2 * var(--pad));height:calc(100dvh - 2 * var(--pad))}
+.ttl.lay-tall{--pad:16px;--hh:min(56vh,calc((100vw - 2 * var(--pad) - 84px) / var(--mar,.48)));gap:14px;grid-template-columns:minmax(0,1fr) auto auto minmax(0,1fr);grid-template-areas:". slip hero ." "sub sub sub sub" "card card card card" "note note note note" "facts facts facts facts"}
+.ttl.lay-tall .ttl-hero{height:var(--hh);width:calc(var(--hh) * var(--mar,.48))}
+.ttl.lay-tall .ttl-slip{flex-direction:column;padding:18px 10px 12px;gap:14px}
+.ttl.lay-tall .game-title{writing-mode:vertical-rl;font-size:2.3rem;line-height:1.05;letter-spacing:.08em}
+.ttl.lay-tall .ttl-seal{--s:42px}
+.ttl.lay-tall .ttl-sub,.ttl.lay-tall .ttl-card,.ttl.lay-tall .ttl-note,.ttl.lay-tall .facts-line{justify-self:center;width:100%;max-width:520px}
+.ttl.lay-tall .ttl-sub{text-align:center}
+.ttl.lay-tall .ttl-quote{font-size:1.5rem}
+.ttl.lay-tall .ttl-card{padding:16px;gap:12px}
+@media (max-width:1100px){.ttl.lay-wide{grid-template-columns:minmax(0,1fr) minmax(280px,.9fr);grid-template-areas:"hero hero" "slip card" "sub card" "note card" "facts card"}}
+.ttl .game-title{white-space:nowrap}
+/* 2D: 캔버스 뒤로 먹 안개를 깐다 */
+.ttl.is-2d{isolation:isolate}
+.ttl.is-2d::before{content:"";position:fixed;inset:-12%;z-index:-1;pointer-events:none;background:radial-gradient(42% 38% at 28% 30%,rgba(140,160,156,.11),transparent 70%),radial-gradient(40% 46% at 76% 66%,rgba(118,126,170,.09),transparent 70%),radial-gradient(60% 50% at 50% 100%,rgba(120,120,116,.07),transparent 70%),#100e0c}
+.ttl.is-2d::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .5  0 0 0 0 .45  0 0 0 0 .38  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");opacity:.18;mix-blend-mode:screen}
+@media (prefers-reduced-motion:no-preference){.ttl.is-2d::before{animation:ttl-mist 46s ease-in-out infinite alternate}}
+@keyframes ttl-mist{to{transform:translate3d(3%,-2.5%,0) scale(1.07)}}
+/* 제목이 먹으로 스며들고, 낙관이 찍히고, 부제와 글귀가 뒤따른다. 이름 칸은 처음부터 보인다 */
+.ttl-anim .ttl-slip{animation:ttl-in .5s ease-out both}
+.ttl-anim .game-title{-webkit-mask-image:linear-gradient(90deg,#000 42%,transparent 58%);mask-image:linear-gradient(90deg,#000 42%,transparent 58%);-webkit-mask-size:260% 100%;mask-size:260% 100%;animation:ttl-sweep 1.6s cubic-bezier(.35,.1,.3,1) .15s both}
+.ttl-anim.lay-tall .game-title{-webkit-mask-image:linear-gradient(180deg,#000 42%,transparent 58%);mask-image:linear-gradient(180deg,#000 42%,transparent 58%);-webkit-mask-size:100% 260%;mask-size:100% 260%;animation-name:ttl-sweep-v}
+.ttl-anim .ttl-seal{animation:ttl-stamp .5s cubic-bezier(.2,.9,.3,1.2) 1.55s both}
+.ttl-anim .ttl-sub .fr{animation:ttl-in .8s ease-out 1.95s both}
+.ttl-anim .ttl-quote{animation:ttl-in .9s ease-out 2.35s both}
+.ttl-anim .ttl-note,.ttl-anim .facts-line{animation:ttl-in 1s ease-out 2.7s both}
+@keyframes ttl-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes ttl-sweep{from{-webkit-mask-position:100% 0;mask-position:100% 0}to{-webkit-mask-position:0 0;mask-position:0 0}}
+@keyframes ttl-sweep-v{from{-webkit-mask-position:0 100%;mask-position:0 100%}to{-webkit-mask-position:0 0;mask-position:0 0}}
+@keyframes ttl-stamp{0%{opacity:0;transform:scale(1.7) rotate(-9deg)}55%{opacity:1;transform:scale(.93) rotate(-2deg)}78%{transform:scale(1.03) rotate(-3deg)}100%{opacity:1;transform:scale(1) rotate(-3deg)}}
+/* 들어갈 때 화면을 덮는 먹물 */
+.ink-veil{position:fixed;inset:0;width:100%;height:100%;z-index:9;display:block}
 .end3d{position:absolute;inset:0;overflow-y:auto;padding:30vh max(16px,env(safe-area-inset-right,0px)) 64px max(16px,env(safe-area-inset-left,0px));background:linear-gradient(180deg,rgba(22,18,14,0) 0,rgba(22,18,14,.74) 26vh,rgba(22,18,14,.95) 52vh)}
 .end3d .ending{max-width:880px;margin:0 auto}
 /* 빛의 방 */
@@ -2144,6 +2185,7 @@ function onResize() { if (!G) return; const w = window.innerWidth, hh = window.i
 function disposeTree(o) { o.traverse(c => { if (c.geometry) c.geometry.dispose(); const ms = Array.isArray(c.material) ? c.material : c.material ? [c.material] : []; ms.forEach(m => { if (m !== G.ink) m.dispose(); }); }); }
 function buildScene(id, from, o = {}) {
   if (G.room) { G.scene.remove(G.room); disposeTree(G.room); }
+  if (G.title) { G.title.dispose(); G.title = null; }
   setHover(null);
   G.room = new T.Group(); G.scene.add(G.room); G.hots = []; G.markers = []; G.anims = []; G.scene.fog = null; G.scene.background = lin('#1b1a17');
   const sc = SCN[id]; sc.title = !!o.title;
@@ -2303,13 +2345,15 @@ function render3D() {
   if (G.focused && !G.busy) { G.focused = false; camTo(G.home.pos, G.yaw, G.pitch * .3, 520); }
   renderHUD();
 }
+/* 시작 화면: 먹 안개 속 한지에 그림이 그려지는 한 장면(시작 화면 그림은 p5c). 다시 그려도 이미 있는 화면은 그대로 둔다 */
 function title3D() {
   init3D(); G.stage.hidden = false; document.body.classList.add('three'); app.innerHTML = ''; topEl = null;
-  if (G.mode !== 'title') { G.mode = 'title'; buildScene('spring', null, { title: true, cam: { pos: [-3.2, 1.7, 7.5], yaw: -.32, pitch: .1 } }); G.auto = dt => { if (RM) return; G.pos.z = Math.max(5.6, G.pos.z - dt * .08); G.yaw = -.32 + Math.sin(G.t * .1) * .06; }; }
   $('#hud').hidden = true;
-  const ui = $('#ui3d'); ui.innerHTML = '';
-  const parts = titleParts();
-  ui.append(h('div', { class: 't3d' }, h('div', { class: 't3d-in' }, parts.head, parts.card)));
+  const ui = $('#ui3d'); let root = ui.querySelector('.t3d > .ttl');
+  const fresh = G.mode !== 'title' || !root;
+  if (fresh) { ui.innerHTML = ''; root = titleView(false); ui.append(h('div', { class: 't3d' }, root)); }
+  if (G.mode !== 'title' || !G.title) { G.mode = 'title'; titleStage3D(root); } else G.title.bind(root);
+  if (fresh) { titleInk(root); requestAnimationFrame(() => titlePlaceholder(root)); }
 }
 function finishGame3D() {
   S.solved.album = true; save(); closeSheet(); G.busy = true;
@@ -2349,18 +2393,10 @@ function lightTier() {
 /* ---------- 셰이더 ---------- */
 const LDEF = () => `#define RS ${LG.R.toFixed(4)}\n#define TH ${LG.TH.toFixed(4)}\n#define Y0 ${LG.Y0.toFixed(4)}\n#define YT ${LG.YT.toFixed(4)}\n#define ZB ${LG.ZB.toFixed(4)}\n#define XW ${LG.XW.toFixed(4)}\n#define ZE ${LG.ZE.toFixed(4)}\n`;
 const L_WVS = 'varying vec3 vW; void main() { vec4 w = modelMatrix * vec4(position, 1.); vW = w.xyz; gl_Position = projectionMatrix * viewMatrix * w; }';
-/* 한지 화면. 그림 두 장(A: 물러나는 그림, B: 새 그림)을 같은 종이 위에 겹쳐 그린다.
-   그림마다 미리 읽어 둔 지도(M)의 왼쪽 반은 [먹선이 나타날 때, 담채가 번져 올 때, 담채의 세기, 먹의 세기], 오른쪽 반은 그 그림의 종이 빛이다.
-   그림 빛 P를 종이 빛 Q로 나눈 D = P/Q가 '종이에 얹힌 먹과 물감'이므로, 끝에는 Q·D = P, 곧 원화 그대로가 된다. */
-const L_SCR_FS = `uniform float uT, uRM, uBreath, uSealA, uBias, uFib;
-uniform sampler2D uNoise, uMist, uSeal, uPA, uMA, uPB, uMB;
-uniform vec4 uRA, uRB, uSA, uSB, uXA, uXB, uHX, uLit, uSealR, uMistBox;
-uniform vec3 uPaper;
-uniform vec4 uDrop[4]; uniform float uDropOn, uWOn;
-#ifdef REFLECT
-uniform vec4 uWDrop[4];
-#endif
-varying vec3 vW;
+/* 함께 쓰는 그리기: 빛의 방과 시작 화면이 같은 '빈 종이 → 먹선 → 담채 → 머무름(→ 물러남)'을 쓴다.
+   sy는 종이 위 자리(m), R은 그림 자리 [s0, s1, y0, y1], S는 [종이, 먹선, 담채, 물러남] 진행, X는 물러나는 방식. */
+const L_SLOT = `uniform float uT, uRM, uBreath, uBias;
+uniform sampler2D uNoise;
 float lum(vec3 c) { return dot(c, vec3(.2126, .7152, .0722)); }
 vec4 nz(vec2 p) { return texture2D(uNoise, p); }
 vec3 slot(vec3 c, vec2 sy, sampler2D P, sampler2D M, vec4 R, vec4 S, vec4 X, vec2 hx) {
@@ -2436,6 +2472,20 @@ vec3 slot(vec3 c, vec2 sy, sampler2D P, sampler2D M, vec4 R, vec4 S, vec4 X, vec
   st = mix(st, vec3(1.), fadeD);
   return c * mix(vec3(1.), st, em1);
 }
+`;
+/* 한지 화면. 그림 두 장(A: 물러나는 그림, B: 새 그림)을 같은 종이 위에 겹쳐 그린다.
+   그림마다 미리 읽어 둔 지도(M)의 왼쪽 반은 [먹선이 나타날 때, 담채가 번져 올 때, 담채의 세기, 먹의 세기], 오른쪽 반은 그 그림의 종이 빛이다.
+   그림 빛 P를 종이 빛 Q로 나눈 D = P/Q가 '종이에 얹힌 먹과 물감'이므로, 끝에는 Q·D = P, 곧 원화 그대로가 된다. */
+const L_SCR_FS = `uniform float uSealA, uFib;
+uniform sampler2D uMist, uSeal, uPA, uMA, uPB, uMB;
+uniform vec4 uRA, uRB, uSA, uSB, uXA, uXB, uHX, uLit, uSealR, uMistBox;
+uniform vec3 uPaper;
+uniform vec4 uDrop[4]; uniform float uDropOn, uWOn;
+#ifdef REFLECT
+uniform vec4 uWDrop[4];
+#endif
+varying vec3 vW;
+${L_SLOT}
 /* 종이에 떨어진 먹물: 처음엔 빠르게, 차츰 느리게 번지고 가장자리가 진하다. 마르며 옅어진다 */
 float drops(vec2 sy) {
   float a = 0.;
@@ -2681,9 +2731,12 @@ function pickSeeds(W, H, ok, score, cell) {
   for (let cy = 0; cy < H; cy += cell) for (let cx = 0; cx < W; cx += cell) { let best = -1, bs = -1; for (let y = cy; y < Math.min(H, cy + cell); y++) for (let x = cx; x < Math.min(W, cx + cell); x++) { const i = y * W + x; if (ok(i) && score[i] > bs) { bs = score[i]; best = i; } } if (best >= 0) out.push(best); }
   return out;
 }
-function* lightArtJob(k) {
+/* 화면 위 자리(m): 넓은 그림은 둥근 화면을 넓게 쓰고, 세로로 긴 그림은 키를 키운다 */
+function lightGeo(ar) { const wide = ar >= 1.6, tall = ar < .62, Hm = wide ? Math.min(16 / ar, 4.8) : tall ? 6.6 : 5.8, Wm = Hm * ar, yc = tall ? 3.75 : wide ? 3.15 : 3.45; return { ar, Wm, Hm, yc, rect: [-Wm / 2, Wm / 2, yc - Hm / 2, yc + Hm / 2] }; }
+const lightGeoK = k => lightGeo(artAR(k, (CARDS[k] && CARDS[k].ar) || 1));
+function* lightArtJob(k, NA = 118000) {
   const im = ARTIMG[k], ar = im ? im.naturalWidth / im.naturalHeight : (CARDS[k] && CARDS[k].ar) || 1;
-  const W = Math.max(48, Math.round(Math.sqrt(118000 * ar))), H = Math.max(48, Math.round(W / ar)), N = W * H;
+  const W = Math.max(48, Math.round(Math.sqrt(NA * ar))), H = Math.max(48, Math.round(W / ar)), N = W * H;
   const cv = mk(W, H), x = cv.getContext('2d', { willReadFrequently: true });
   if (im) x.drawImage(im, 0, 0, W, H); else fbPaint(k)(x, W, H);
   const px = x.getImageData(0, 0, W, H).data; cv.width = cv.height = 1;
@@ -2750,9 +2803,7 @@ function* lightArtJob(k) {
       map[o2] = Math.round(Q[i * 3] * 255); map[o2 + 1] = Math.round(Q[i * 3 + 1] * 255); map[o2 + 2] = Math.round(Q[i * 3 + 2] * 255); map[o2 + 3] = 255;
     }
   }
-  /* 화면 위 자리: 넓은 그림은 둥근 화면을 넓게 쓰고, 세로로 긴 그림은 키를 키운다 */
-  const wide = ar >= 1.6, tall = ar < .62, Hm = wide ? Math.min(16 / ar, 4.8) : tall ? 6.6 : 5.8, Wm = Hm * ar, yc = tall ? 3.75 : wide ? 3.15 : 3.45;
-  return { k, ar, W, H, map, avg, paper: gp.slice(), Wm, Hm, yc, rect: [-Wm / 2, Wm / 2, yc - Hm / 2, yc + Hm / 2] };
+  return Object.assign({ k, W, H, map, avg, paper: gp.slice() }, lightGeo(ar));
 }
 /* 잔잔한 결 잡음 텍스처(256×256, 반복). R·G·B·A에 격자 크기 32·16·8·4픽셀짜리 값 잡음 */
 function lightNoiseTex() {
@@ -2869,19 +2920,42 @@ function lightAudio() {
   return A;
 }
 
+/* ---------- 함께 쓰는 도구: 그림 텍스처, 먹 안개, 진행값 ---------- */
+/* 그림 텍스처(밉맵)와 지도 텍스처. WebGL1이면 2의 거듭제곱 크기로 다시 그린다 */
+function lightArtTex(art) {
+  const RR = G.renderer, isW2 = RR.capabilities.isWebGL2, aniso = Math.min(8, RR.capabilities.getMaxAnisotropy());
+  let src = ARTIMG[art.k];
+  if (!src || !isW2) { const p2 = v => Math.min(2048, Math.pow(2, Math.ceil(Math.log2(Math.max(2, v))))), iw = src ? src.naturalWidth : 1024, ih = src ? src.naturalHeight : Math.round(1024 / art.ar), c = mk(p2(iw), p2(ih)), x = c.getContext('2d'); if (src) x.drawImage(src, 0, 0, c.width, c.height); else fbPaint(art.k)(x, c.width, c.height); src = c; }
+  const P = new T.Texture(src); P.minFilter = T.LinearMipmapLinearFilter; P.magFilter = T.LinearFilter; P.anisotropy = aniso; P.generateMipmaps = true; P.needsUpdate = true;
+  const M = new T.DataTexture(art.map, art.W * 2, art.H, T.RGBAFormat); M.minFilter = M.magFilter = T.LinearFilter; M.generateMipmaps = false; M.needsUpdate = true;
+  return { P, M, hx: [.5 / (art.W * 2), .5 / art.H] };
+}
+/* 먹빛 안개: 낮은 해상도 그림 한 장에 그려 두고 여럿이 함께 쓴다. box는 그 그림이 덮는 넓이(m) */
+function lightMist(size, box, noise) {
+  const rt = new T.WebGLRenderTarget(size[0], size[1], { minFilter: T.LinearFilter, magFilter: T.LinearFilter, depthBuffer: false, stencilBuffer: false });
+  const U = { uT: { value: 0 }, uNoise: { value: noise }, uMistBox: { value: box } }, scene = new T.Scene(), cam = new T.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+  const quad = new T.Mesh(new T.PlaneGeometry(2, 2), new T.ShaderMaterial({ uniforms: U, vertexShader: L_MIST_VS, fragmentShader: L_MIST_FS, depthTest: false, depthWrite: false })); quad.frustumCulled = false; scene.add(quad);
+  return { rt, U, render(t) { const RR = G.renderer; U.uT.value = t; RR.setRenderTarget(rt); RR.render(scene, cam); RR.setRenderTarget(null); }, dispose() { rt.dispose(); quad.geometry.dispose(); quad.material.dispose(); } };
+}
+/* 한 자리의 [종이, 먹선, 담채, 물러남] 진행값. P는 때 표(빛의 방 LT, 시작 화면 TLT) */
+function lightState(sl, P) {
+  if (!sl.art) return [-1, 0, 0, 0];
+  const t = sl.t, o = sl.out >= 0 ? Math.min(1, sl.out / (RM ? P.rm : P.out)) : 0;
+  if (RM) { const f = sstep(0, P.rm, t); return [f, f, f, o]; }
+  const sh = sl.inStyle === 'overlap' ? sstep(1.2, 3.4, t) : sstep(0, P.sheet, t);
+  return [t < 0 ? 0 : sh, Math.min(1.2, (t - P.ink0) / (P.ink1 - P.ink0) * 1.04), Math.min(1.2, (t - P.wash0) / (P.wash1 - P.wash0) * 1.06), o];
+}
+
 /* ---------- 방 만들기 ---------- */
 const sealFor = k => { const lf = LEAVES.find(l => l.art === k); return lf && lf.seal !== 'sarang' && SEALS[lf.seal] ? SEALS[lf.seal] : null; };
 function buildLight(back) {
   const tier = lightTier(), grp = new T.Group(), V3 = (x = 0, y = 0, z = 0) => new T.Vector3(x, y, z), V4 = (x = 0, y = 0, z = 0, w = 0) => new T.Vector4(x, y, z, w);
-  const RR = G.renderer, isW2 = RR.capabilities.isWebGL2, aniso = Math.min(8, RR.capabilities.getMaxAnisotropy());
+  const RR = G.renderer;
   const L = { back, grp, tier, t: 0, idx: 0, paused: false, hold: 0, level: 0, wd: { f: 0, a: 0, skip: 4, last: 0 }, lastInput: 0, nd: 0, nw: 0, snd: lightAudio(), cpu: new Map(), gpu: new Map(), jobs: new Map(), frames: 0, revealed: false, mistLast: -1, mistEvery: 1 / 15, newer: 0, lit: [-2.5, 2.5, .6, 5.9], spec: 0, specKind: 0, moodAt: -1 };
   L.noise = lightNoiseTex();
   /* 안개 그림: 왼쪽 벽 · 천장 · 오른쪽 벽을 펼쳐 이은 평면, 그 앞쪽에 화면을 붙인 넓이 */
   const [mw, mh] = tier.mist, MB = V4(-(LG.XW + LG.YT), -LG.R - LG.YT, 2 * (LG.XW + LG.YT), LG.R + LG.YT + LG.ZB);
-  L.mistRT = new T.WebGLRenderTarget(mw, mh, { minFilter: T.LinearFilter, magFilter: T.LinearFilter, depthBuffer: false, stencilBuffer: false });
-  L.mistU = { uT: { value: 0 }, uNoise: { value: L.noise }, uMistBox: { value: MB } };
-  L.mistScene = new T.Scene(); L.mistCam = new T.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-  L.mistQuad = new T.Mesh(new T.PlaneGeometry(2, 2), new T.ShaderMaterial({ uniforms: L.mistU, vertexShader: L_MIST_VS, fragmentShader: L_MIST_FS, depthTest: false, depthWrite: false })); L.mistQuad.frustumCulled = false; L.mistScene.add(L.mistQuad);
+  L.mist = lightMist([mw, mh], MB, L.noise); L.mistRT = L.mist.rt;
   /* 낙관 자리(게임의 일곱 도장 가운데 그 그림에서 배운 것) */
   L.sealCv = mk(128, 128); L.sealTex = new T.CanvasTexture(L.sealCv);
   L.blank = new T.DataTexture(new Uint8Array([255, 255, 255, 255]), 1, 1, T.RGBAFormat); L.blank.needsUpdate = true;
@@ -2919,11 +2993,7 @@ function buildLight(back) {
   const trim = () => { for (const k of [...L.cpu.keys()]) { if (L.cpu.size <= 5) break; if (!inUse(k)) L.cpu.delete(k); } };
   L.gpuFor = art => {
     let gx = L.gpu.get(art.k); if (gx) { L.gpu.delete(art.k); L.gpu.set(art.k, gx); return gx; }
-    let src = ARTIMG[art.k];
-    if (!src || !isW2) { const p2 = v => Math.min(2048, Math.pow(2, Math.ceil(Math.log2(Math.max(2, v))))), iw = src ? src.naturalWidth : 1024, ih = src ? src.naturalHeight : Math.round(1024 / art.ar), c = mk(p2(iw), p2(ih)), x = c.getContext('2d'); if (src) x.drawImage(src, 0, 0, c.width, c.height); else fbPaint(art.k)(x, c.width, c.height); src = c; }
-    const P = new T.Texture(src); P.minFilter = T.LinearMipmapLinearFilter; P.magFilter = T.LinearFilter; P.anisotropy = aniso; P.generateMipmaps = true; P.needsUpdate = true;
-    const M = new T.DataTexture(art.map, art.W * 2, art.H, T.RGBAFormat); M.minFilter = M.magFilter = T.LinearFilter; M.generateMipmaps = false; M.needsUpdate = true;
-    gx = { P, M, hx: [.5 / (art.W * 2), .5 / art.H] }; L.gpu.set(art.k, gx);
+    gx = lightArtTex(art); L.gpu.set(art.k, gx);
     for (const [k, g] of [...L.gpu]) { if (L.gpu.size <= 3) break; if (k !== art.k && !inUse(k)) { g.P.dispose(); g.M.dispose(); L.gpu.delete(k); } }
     return gx;
   };
@@ -2931,13 +3001,7 @@ function buildLight(back) {
   const slot = () => ({ art: null, gx: null, t: 0, out: -1, style: 'smoke', inStyle: 'smoke', dir: [1, 0], seed: 0 });
   L.sl = [slot(), slot()];
   const STY = { smoke: 0, water: 1, overlap: 2 };
-  const stateOf = sl => {
-    if (!sl.art) return [-1, 0, 0, 0];
-    const t = sl.t, o = sl.out >= 0 ? Math.min(1, sl.out / (RM ? LT.rm : LT.out)) : 0;
-    if (RM) { const f = sstep(0, LT.rm, t); return [f, f, f, o]; }
-    const sh = sl.inStyle === 'overlap' ? sstep(1.2, 3.4, t) : sstep(0, LT.sheet, t);
-    return [t < 0 ? 0 : sh, Math.min(1.2, (t - LT.ink0) / (LT.ink1 - LT.ink0) * 1.04), Math.min(1.2, (t - LT.wash0) / (LT.wash1 - LT.wash0) * 1.06), o];
-  };
+  const stateOf = sl => lightState(sl, LT);
   const bind = () => {
     const su = L.SU, a = L.sl[1 - L.newer], b = L.sl[L.newer];
     [[a, su.uPA, su.uMA, su.uRA, su.uSA, su.uXA, 0], [b, su.uPB, su.uMB, su.uRB, su.uSB, su.uXB, 2]].forEach(([sl, P, M, R, S, X, h0]) => {
@@ -2969,7 +3033,7 @@ function buildLight(back) {
   L.step = d => { L.lastInput = performance.now(); L.go(d); };
   /* 그림이 화면 너비와 높이에 다 들어오도록 물러선다. 움직임 줄이기에서는 가장 넓은 그림에 맞춰 고정한다 */
   const fitZ = a => { const th = Math.tan(G.cam.fov * PI / 360), tw = th * G.cam.aspect, wm = a.Wm / 2 / LG.R; return Math.min(9.4, Math.max(0, LG.R * Math.sin(wm) / (.92 * tw) - LG.R * Math.cos(wm), (a.Hm / 2 + .4) / (.88 * th) - LG.R)); };
-  const geoOf = k => { const ar = artAR(k, (CARDS[k] && CARDS[k].ar) || 1), wide = ar >= 1.6, tall = ar < .62, Hm = wide ? Math.min(16 / ar, 4.8) : tall ? 6.6 : 5.8; return { Wm: Hm * ar, Hm, yc: tall ? 3.75 : wide ? 3.15 : 3.45 }; };
+  const geoOf = lightGeoK;
   const zFor = () => RM ? Math.max(...LIGHT_SEQ.map(([k]) => fitZ(geoOf(k)))) : fitZ(geoOf(LIGHT_SEQ[L.idx][0]));
   const hpFor = z => ({ z, pitch: Math.atan2(geoOf(LIGHT_SEQ[L.idx][0]).yc - 1.6, z + LG.R) * .62 });
   L.home = () => { L.hp = hpFor(zFor()); G.pos.set(0, 1.6, L.hp.z); G.yaw = 0; G.pitch = L.hp.pitch; };
@@ -3021,7 +3085,7 @@ function buildLight(back) {
     PU.uMoteW.value = (RM ? .5 : 1) * (1 - .55 * PU.uSpecW.value);
     if (cur.art) { const a = cur.art.avg; L.WU.uGlow.value.set(a[0], a[1], a[2]); }
     L.SU.uDropOn.value = L.SU.uDrop.value.some(v => v.z >= 0 && L.t - v.z < 9) ? 1 : 0; L.WU.uWOn.value = L.WU.uWDrop.value.some(v => v.z >= 0 && L.t - v.z > -.6 && L.t - v.z < 14) ? 1 : 0;
-    if (L.mistLast < 0 || (!RM && L.t - L.mistLast >= L.mistEvery)) { L.mistLast = L.t; L.mistU.uT.value = RM ? 0 : L.t; RR.setRenderTarget(L.mistRT); RR.render(L.mistScene, L.mistCam); RR.setRenderTarget(null); }
+    if (L.mistLast < 0 || (!RM && L.t - L.mistLast >= L.mistEvery)) { L.mistLast = L.t; L.mist.render(RM ? 0 : L.t); }
     if (L.revealed && L.jobs.size) L.pump(L.level ? 3 : 5);
     /* 초당 30장 아래로 몇 초 머물면 한 단계씩 가볍게 한다 */
     const now = performance.now(), raw = L.wd.last ? (now - L.wd.last) / 1000 : 0; L.wd.last = now;
@@ -3088,7 +3152,7 @@ function exitLight() {
     clearTimeout(L.capT); L.snd.close(); L.ui.remove(); L.jobs.clear(); L.cpu.clear();
     G.scene.remove(L.grp); disposeTree(L.grp);
     for (const g of L.gpu.values()) { g.P.dispose(); g.M.dispose(); } L.gpu.clear();
-    [L.noise, L.sealTex, L.blank].forEach(t => t.dispose()); L.mistRT.dispose(); L.mistQuad.geometry.dispose(); L.mistQuad.material.dispose();
+    [L.noise, L.sealTex, L.blank].forEach(t => t.dispose()); L.mist.dispose();
     Object.assign(G, { light: null, mode: st.mode, room: st.room, anims: st.anims, auto: st.auto, yaw: st.yaw, pitch: st.pitch, hots: st.hots, markers: st.markers, cur: st.cur, vy: 0, pd: null, shadowDirty: true });
     G.pos.copy(st.pos); G.scene.fog = st.fog; G.scene.background = st.bg; if (st.room) G.scene.add(st.room);
     if (G.renderer.getPixelRatio() !== st.pr) G.renderer.setPixelRatio(st.pr);
@@ -3100,6 +3164,252 @@ function exitLight() {
   });
 }
 function lightOK() { return !!T && webglOK(); }
+/* ================= 시작 화면: 어두운 먹 안개 속 한지에 그림 한 점이 그려진다 ================= */
+/* 빛의 방과 같은 그리기(빈 종이 → 먹선 → 담채 → 머무름)를 짧게 쓴다. 넓은 화면은 「군선도」, 세로 화면은 「마상청앵도」, 그 사이는 「씨름」.
+   제목은 한지 제첨에 먹으로 스며들고, 게임의 낙관 모양 畵帖이 찍힌다. 진행 기록(S)은 건드리지 않는다. */
+const TLT = { sheet: .5, ink0: .25, ink1: 3, wash0: 2.3, wash1: 5, done: 5.2, out: 1, rm: .5 };
+const TITLE_ART = { wide: 'gunseon', mid: 'ssireum', tall: 'masang' };
+let ARTP = null, ART_DONE = false;
+const titleKind = () => { const a = innerWidth / Math.max(1, innerHeight); return a >= 1.45 ? 'wide' : a < .8 ? 'tall' : 'mid'; };
+/* 화면 비율에 맞는 그림과 배치를 정한다. m은 그림 둘레 한지 여백(m), mar는 여백까지 친 종이의 가로세로비 */
+function titleLayout(root) {
+  const kind = titleKind(), k = TITLE_ART[kind], g = lightGeoK(k), m = .06 * Math.min(g.Wm, g.Hm), mar = (g.Wm + 2 * m) / (g.Hm + 2 * m);
+  if (root.dataset.kind !== kind) { root.classList.remove('lay-wide', 'lay-mid', 'lay-tall'); root.classList.add('lay-' + kind); root.dataset.kind = kind; }
+  root.style.setProperty('--mar', mar.toFixed(4));
+  return { kind, k, g, m, mar };
+}
+/* 영웅 칸 안에 종이를 맞춰 넣은 자리(CSS px) */
+function titleFit(hero, L0) {
+  const r = hero.getBoundingClientRect(), mW = L0.g.Wm + 2 * L0.m, mH = L0.g.Hm + 2 * L0.m, sc = Math.max(1, Math.min(r.width / mW, r.height / mH));
+  return { r, sc, cx: r.left + r.width / 2, cy: r.top + r.height / 2, w: mW * sc, h: mH * sc };
+}
+/* 첫 WebGL 장면이 그려지기 전에 같은 자리를 채워 두는 빈 한지 */
+function titlePlaceholder(root) {
+  const ph = root.querySelector('.ttl-ph'), hero = root.querySelector('.ttl-hero'); if (!ph || !hero) return;
+  const f = titleFit(hero, titleLayout(root)), r = f.r;
+  Object.assign(ph.style, { width: f.w + 'px', height: f.h + 'px', left: (f.cx - r.left - f.w / 2) + 'px', top: (f.cy - r.top - f.h / 2) + 'px' });
+}
+
+/* ---------- WebGL: 화면 전체를 덮는 한 장. 먹 안개 바탕, 빛을 받은 한지, 그 위에 그려지는 그림 ---------- */
+const L_TTL_VS = 'void main() { gl_Position = vec4(position.xy, 0., 1.); }';
+const L_TTL_FS = `uniform vec2 uRes, uC, uHm; uniform float uDpr, uScale, uYc, uFib, uGlow;
+uniform vec4 uR, uS, uX, uHX; uniform vec3 uPaper; uniform sampler2D uP, uM, uMist;
+${L_SLOT}
+void main() {
+  vec2 vp = uRes / uDpr, px = vec2(gl_FragCoord.x, uRes.y - gl_FragCoord.y) / uDpr;
+  vec2 sy = vec2((px.x - uC.x) / uScale, uYc - (px.y - uC.y) / uScale), q = sy - vec2(0., uYc);
+  vec4 mi = texture2D(uMist, vec2(px.x / vp.x, 1. - px.y / vp.y));
+  float d = length(max(abs(q) - uHm, 0.));
+  vec3 col = vec3(.026, .024, .023) + mix(vec3(.56, .64, .62), vec3(.44, .49, .66), mi.g) * mi.r * .1 + uPaper * uGlow * .15 * exp(-d * d * .3);
+  vec2 e = uHm - abs(q);
+  float dk = (nz(sy * .21).b - .5) * .03 + (nz(sy * .8).a - .5) * .01, inside = smoothstep(-.012, .012, min(e.x, e.y) + dk);
+  if (inside > 0.) {
+    vec4 n1 = nz(sy * .083);
+    vec3 pc = uPaper * (1. + (n1.r - .5) * .08 + (n1.g - .5) * .06);
+    if (uFib > 0.) { vec2 fs = vec2(.05, .55); float pm = smoothstep(.38, .62, n1.b); float f = smoothstep(.6, .78, nz(mat2(.97, .26, -.26, .97) * sy * fs).a) * pm + smoothstep(.6, .78, nz(mat2(.42, -.91, .91, .42) * sy * fs + .3).a) * (1. - pm); pc *= 1. + f * .016 - .005; }
+    pc *= .9 + .1 * (1. - smoothstep(.2, 1.3, length(q / uHm)));
+    col = mix(col, pc, inside);
+  }
+  if (uS.x > -.5) col = slot(col, sy, uP, uM, uR, uS, uX, uHX.xy);
+  col += (fract(sin(dot(gl_FragCoord.xy, vec2(12.9898, 78.233))) * 43758.5453) - .5) / 255.;
+  gl_FragColor = vec4(col, 1.);
+}`;
+function buildTitleStage(root) {
+  const RR = G.renderer, tier = lightTier(), V2 = () => new T.Vector2(), V4 = (x = 0, y = 0, z = 0, w = 0) => new T.Vector4(x, y, z, w), v2 = V2();
+  const S0 = { root, t: 0, frames: 0, level: 0, wd: { f: 0, a: 0, skip: 4, last: 0 }, mistLast: -1, mistEvery: 1 / 15, live: false, pr0: RR.getPixelRatio(), L0: null, art: null, job: null, sl: { art: null, gx: null, t: 0, out: -1, inStyle: 'smoke', style: 'smoke' } };
+  S0.noise = lightNoiseTex();
+  S0.blank = new T.DataTexture(new Uint8Array([255, 255, 255, 255]), 1, 1, T.RGBAFormat); S0.blank.needsUpdate = true;
+  S0.mist = lightMist([[256, 160], [192, 120], [128, 80]][tier.t], V4(0, 0, 20, 12), S0.noise);
+  const U = S0.U = { uT: { value: 0 }, uRM: { value: RM ? 1 : 0 }, uBreath: { value: RM ? 0 : 1 }, uBias: { value: 0 }, uNoise: { value: S0.noise }, uRes: { value: V2() }, uC: { value: V2() }, uHm: { value: V2() }, uDpr: { value: 1 }, uScale: { value: 50 }, uYc: { value: 3 }, uFib: { value: 1 }, uGlow: { value: RM ? 1 : 0 },
+    uR: { value: V4(0, 1, 0, 1) }, uS: { value: V4(-1) }, uX: { value: V4() }, uHX: { value: V4(.25, .5, .25, .5) }, uPaper: { value: new T.Vector3(.86, .82, .74) }, uP: { value: S0.blank }, uM: { value: S0.blank }, uMist: { value: S0.mist.rt.texture } };
+  const mesh = new T.Mesh(new T.PlaneGeometry(2, 2), new T.ShaderMaterial({ uniforms: U, vertexShader: L_TTL_VS, fragmentShader: L_TTL_FS, depthTest: false, depthWrite: false }));
+  mesh.frustumCulled = false; mesh.raycast = () => {}; S0.grp = new T.Group(); S0.grp.add(mesh); S0.mesh = mesh;
+  const dropArt = () => { if (S0.sl.gx) { S0.sl.gx.P.dispose(); S0.sl.gx.M.dispose(); } S0.sl.art = null; S0.sl.gx = null; S0.art = null; S0.job = null; };
+  S0.bind = r => { S0.root = r; };
+  S0.anim = (t, dt) => {
+    S0.t += dt; S0.frames++; U.uT.value = S0.t;
+    const root0 = S0.root, hero = root0.querySelector('.ttl-hero'); if (!hero) return;
+    const L0 = titleLayout(root0);
+    if (!S0.L0 || S0.L0.k !== L0.k) { const again = !!S0.L0; dropArt(); S0.again = again; }
+    S0.L0 = L0;
+    /* 그림 읽기는 화면을 멈추지 않게 조금씩 */
+    if (!S0.art && (ARTIMG[L0.k] || ART_DONE)) {
+      if (!S0.job) S0.job = lightArtJob(L0.k, 70000);
+      const t0 = performance.now();
+      for (;;) { const r = S0.job.next(); if (r.done) { S0.art = r.value; S0.job = null; S0.sl.art = S0.art; S0.sl.gx = lightArtTex(S0.art); S0.sl.t = S0.again ? TLT.done : 0; U.uPaper.value.set(...[.86, .82, .74].map((v, j) => v * .6 + Math.min(1, S0.art.paper[j] * 1.04) * .4)); break; } if (performance.now() - t0 > 10) break; }
+    }
+    if (S0.sl.art) S0.sl.t += dt;
+    const f = titleFit(hero, L0), g = L0.g;
+    RR.getDrawingBufferSize(v2); U.uRes.value.copy(v2); U.uDpr.value = RR.getPixelRatio();
+    U.uScale.value = f.sc; U.uC.value.set(f.cx, f.cy); U.uYc.value = g.yc; U.uHm.value.set(g.Wm / 2 + L0.m, g.Hm / 2 + L0.m); U.uR.value.set(...g.rect);
+    U.uS.value.set(...lightState(S0.sl, TLT));
+    if (S0.sl.gx) { U.uP.value = S0.sl.gx.P; U.uM.value = S0.sl.gx.M; U.uHX.value.set(S0.sl.gx.hx[0], S0.sl.gx.hx[1], 0, 0); } else { U.uP.value = S0.blank; U.uM.value = S0.blank; }
+    U.uGlow.value = RM ? 1 : Math.min(1, S0.t / .9);
+    const mb = S0.mist.U.uMistBox.value, w = innerWidth / 55, hh = innerHeight / 55;
+    if (mb.z !== w || mb.w !== hh) { mb.set(0, 0, w, hh); S0.mistLast = -1; }
+    if (S0.mistLast < 0 || (!RM && S0.level < 3 && S0.t - S0.mistLast >= S0.mistEvery)) { S0.mistLast = S0.t; S0.mist.render(RM ? 0 : S0.t); }
+    if (!S0.live) { S0.live = true; requestAnimationFrame(() => requestAnimationFrame(() => root0.classList.add('live'))); }
+    const now = performance.now(), raw = S0.wd.last ? (now - S0.wd.last) / 1000 : 0; S0.wd.last = now;
+    if (LIGHT_CFG.watchdog && raw > 0 && raw < 1) { if (S0.wd.skip > 0) S0.wd.skip -= raw; else { S0.wd.f++; S0.wd.a += raw; if (S0.wd.a > 3) { const fps = S0.wd.f / S0.wd.a; S0.wd.f = 0; S0.wd.a = 0; if (fps < 30 && S0.level < 3) { S0.density(S0.level + 1); S0.wd.skip = 2; } } } }
+  };
+  /* 단계: 0 그대로 · 1 안개를 덜 자주 · 2 화소 비율 1, 한지 결 생략 · 3 안개 멈춤 */
+  S0.density = lv => { S0.level = lv; S0.mistEvery = [1 / 15, 1 / 10, 1 / 8, 1e9][lv]; U.uFib.value = lv >= 2 ? 0 : 1; if (lv >= 2 && RR.getPixelRatio() > 1) { RR.setPixelRatio(1); onResize(); } };
+  S0.dispose = () => {
+    dropArt(); S0.noise.dispose(); S0.blank.dispose(); S0.mist.dispose(); mesh.geometry.dispose(); mesh.material.dispose();
+    if (RR.getPixelRatio() !== S0.pr0) { RR.setPixelRatio(S0.pr0); onResize(); }
+  };
+  S0.density(Math.min(1, tier.t));
+  return S0;
+}
+function titleStage3D(root) {
+  if (G.room) { G.scene.remove(G.room); disposeTree(G.room); }
+  if (G.title) { G.title.dispose(); G.title = null; }
+  setHover(null); G.hots = []; G.markers = []; G.scene.fog = null; G.scene.background = new T.Color(0x0e0c0b);
+  const S0 = buildTitleStage(root); G.title = S0; G.room = S0.grp; G.scene.add(S0.grp); G.anims = [S0.anim]; G.auto = null; G.sig = ''; G.frozen = 0;
+  /* 예전 시작 화면(봄 언덕 장면)과 똑같이 남겨 둔다: 첫 방을 지을 때 표시 높이를 이 값으로 읽는다 */
+  G.cur = 'spring';
+}
+
+/* ---------- WebGL 없이: 같은 지도로 먹선과 담채의 가림막을 만들어 캔버스에 겹친다 ---------- */
+function titleStage2D(root) {
+  const hero = root.querySelector('.ttl-hero'), cv = mk(2, 2); cv.className = 'ttl-cv'; cv.setAttribute('aria-hidden', 'true'); hero.append(cv);
+  const x = cv.getContext('2d'), sm = (a, b, v) => { const t = Math.min(1, Math.max(0, (v - a) / (b - a))); return t * t * (3 - 2 * t); };
+  const S2 = { k: null, art: null, job: null, t0: 0, key: '', done: false, still: false };
+  /* 종이 결: 작은 잡음 무늬를 곱해 얹는다 */
+  const grain = mk(128, 128); { const g = grain.getContext('2d'), im = g.createImageData(128, 128), n = vnoise(128, 128, 6, 21), n2 = vnoise(128, 128, 2, 9); for (let i = 0; i < 128 * 128; i++) { const v = 228 + 27 * (n[i] * .7 + n2[i] * .3); im.data[i * 4] = v; im.data[i * 4 + 1] = v * .985; im.data[i * 4 + 2] = v * .96; im.data[i * 4 + 3] = 255; } g.putImageData(im, 0, 0); }
+  const L = { mount: null, P: null, ink: null, A: null, B: null, C: null, mI: null, mW: null, mR: null };
+  const setup = () => {
+    const L0 = titleLayout(root), dpr = Math.min(window.devicePixelRatio || 1, 1.25), r = hero.getBoundingClientRect(), W = Math.max(2, Math.round(r.width * dpr)), H = Math.max(2, Math.round(r.height * dpr));
+    const key = [L0.k, W, H].join(':'); if (key === S2.key) return false; S2.key = key;
+    if (S2.k !== L0.k) { const again = !!S2.k; S2.k = L0.k; S2.art = null; S2.job = null; S2.done = false; S2.still = again || RM; }
+    cv.width = W; cv.height = H; S2.L0 = L0;
+    const f = titleFit(hero, L0), sc = f.sc * dpr, mw = f.w * dpr, mh = f.h * dpr, mx = (W - mw) / 2, my = (H - mh) / 2, m = L0.m * sc;
+    S2.R = { x: Math.round(mx + m), y: Math.round(my + m), w: Math.round(mw - 2 * m), h: Math.round(mh - 2 * m) };
+    /* 빛을 받은 한지: 가장자리가 고르지 않은 종이와 둘레의 은은한 빛 */
+    const mo = L.mount = mk(W, H), g = mo.getContext('2d'), R = rng(7), path = new Path2D(), jit = () => (R() - .5) * 2.2 * dpr, steps = 28;
+    for (let i = 0; i <= steps; i++) path[i ? 'lineTo' : 'moveTo'](mx + mw * i / steps, my + jit());
+    for (let i = 1; i <= steps; i++) path.lineTo(mx + mw + jit(), my + mh * i / steps);
+    for (let i = 1; i <= steps; i++) path.lineTo(mx + mw * (1 - i / steps), my + mh + jit());
+    for (let i = 1; i < steps; i++) path.lineTo(mx + jit(), my + mh * (1 - i / steps));
+    path.closePath();
+    g.save(); g.shadowColor = 'rgba(232,220,196,.2)'; g.shadowBlur = 46 * dpr; g.fillStyle = '#dbd1bd'; g.fill(path); g.restore();
+    g.save(); g.clip(path); g.globalCompositeOperation = 'multiply'; g.fillStyle = g.createPattern(grain, 'repeat'); g.fillRect(0, 0, W, H);
+    const rg = g.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, Math.max(mw, mh) * .7); rg.addColorStop(0, 'rgba(255,255,255,1)'); rg.addColorStop(1, 'rgba(226,220,210,1)'); g.fillStyle = rg; g.fillRect(0, 0, W, H); g.restore();
+    L.P = L.ink = null;
+    return true;
+  };
+  const layers = () => {
+    const a = S2.art, R0 = S2.R, im = ARTIMG[a.k];
+    const P = L.P = mk(R0.w, R0.h), pg = P.getContext('2d'); if (im) pg.drawImage(im, 0, 0, R0.w, R0.h); else fbPaint(a.k)(pg, R0.w, R0.h);
+    const pl = .2126 * a.paper[0] + .7152 * a.paper[1] + .0722 * a.paper[2], ink = L.ink = mk(R0.w, R0.h), ig = ink.getContext('2d');
+    ig.filter = `grayscale(1) brightness(${(1 / Math.max(.3, pl)).toFixed(3)})`; ig.drawImage(P, 0, 0); ig.filter = 'none';
+    L.A = mk(R0.w, R0.h); L.B = mk(R0.w, R0.h); L.C = mk(R0.w, R0.h);
+    const W = a.W, H = a.H, N = W * H; S2.N = N;
+    if (!L.mI || L.mI.width !== W || L.mI.height !== H) { L.mI = mk(W, H); L.mW = mk(W, H); L.mR = mk(W, H); }
+    S2.iI = L.mI.getContext('2d').createImageData(W, H); S2.iW = L.mW.getContext('2d').createImageData(W, H); S2.iR = L.mR.getContext('2d').createImageData(W, H);
+    for (const d of [S2.iI.data, S2.iW.data, S2.iR.data]) for (let i = 0; i < N; i++) { d[i * 4] = d[i * 4 + 1] = d[i * 4 + 2] = 255; }
+    const tI = S2.tI = new Float32Array(N), tW = S2.tW = new Float32Array(N), ws = S2.ws = new Float32Array(N), mk2 = S2.mk = new Float32Array(N), nz = vnoise(W, H, 4, 13), nz2 = vnoise(W, H, 1.5, 17);
+    for (let y = 0; y < H; y++) for (let xx = 0; xx < W; xx++) { const i = y * W + xx, o = ((H - 1 - y) * W * 2 + xx) * 4; tI[i] = a.map[o] / 255; tW[i] = a.map[o + 1] / 255 + (nz[i] - .5) * .09 + (nz2[i] - .5) * .035; ws[i] = sm(.05, .4, a.map[o + 2] / 255); mk2[i] = sm(.02, .3, a.map[o + 3] / 255); }
+    S2.paperCss = `rgb(${a.paper.map(v => Math.round(Math.min(1, v) * 255)).join(',')})`;
+  };
+  const draw = t => {
+    const R0 = S2.R; x.setTransform(1, 0, 0, 1, 0, 0); x.globalAlpha = 1; x.globalCompositeOperation = 'source-over'; x.clearRect(0, 0, cv.width, cv.height); x.drawImage(L.mount, 0, 0);
+    if (!S2.art) return;
+    if (S2.still || t >= TLT.done + .2) { if (RM && t < TLT.rm) x.globalAlpha = sm(0, TLT.rm, t); x.drawImage(L.P, R0.x, R0.y); x.globalAlpha = 1; return; }
+    const st = lightState({ art: S2.art, t, out: -1, inStyle: 'smoke' }, TLT), pI = st[1], pW = st[2], N = S2.N, dI = S2.iI.data, dW = S2.iW.data, dR = S2.iR.data;
+    for (let i = 0; i < N; i++) { const o = i * 4 + 3, ti = S2.tI[i], tw = S2.tW[i], z = (pW - tw - .035) / .04; dI[o] = 255 * sm(ti - .02, ti + .02, pI) * S2.mk[i]; dW[o] = 255 * sm(tw - .025, tw + .025, pW); dR[o] = pW < 1.1 ? 255 * Math.exp(-z * z) * S2.ws[i] : 0; }
+    L.mI.getContext('2d').putImageData(S2.iI, 0, 0); L.mW.getContext('2d').putImageData(S2.iW, 0, 0); L.mR.getContext('2d').putImageData(S2.iR, 0, 0);
+    x.globalAlpha = st[0]; x.fillStyle = S2.paperCss; x.fillRect(R0.x, R0.y, R0.w, R0.h); x.globalAlpha = 1;
+    const masked = (c, src, mask) => { const g = c.getContext('2d'); g.globalCompositeOperation = 'source-over'; g.clearRect(0, 0, c.width, c.height); g.drawImage(src, 0, 0); g.globalCompositeOperation = 'destination-in'; g.imageSmoothingEnabled = true; g.drawImage(mask, 0, 0, c.width, c.height); return c; };
+    x.globalCompositeOperation = 'multiply'; x.drawImage(masked(L.A, L.ink, L.mI), R0.x, R0.y);
+    x.globalCompositeOperation = 'source-over'; x.drawImage(masked(L.B, L.P, L.mW), R0.x, R0.y);
+    x.globalCompositeOperation = 'multiply'; x.globalAlpha = .45; x.drawImage(masked(L.C, L.P, L.mR), R0.x, R0.y); x.globalAlpha = 1; x.globalCompositeOperation = 'source-over';
+  };
+  /* 그림이 다 그려진 뒤에는 크기가 바뀔 때만 다시 그린다 */
+  const loop = () => {
+    if (!cv.isConnected) return;
+    requestAnimationFrame(loop);
+    if (app.hidden || document.hidden) return;
+    const changed = setup();
+    if (!S2.art && (ARTIMG[S2.k] || ART_DONE)) {
+      if (!S2.job) S2.job = lightArtJob(S2.k, 50000);
+      const t0 = performance.now(); for (;;) { const r = S2.job.next(); if (r.done) { S2.art = r.value; S2.job = null; S2.t0 = performance.now(); layers(); S2.done = false; break; } if (performance.now() - t0 > 10) break; }
+    } else if (S2.art && !L.P) layers();
+    const t = S2.art ? (performance.now() - S2.t0) / 1000 : 0;
+    if (!S2.art) { if (changed) draw(0); }
+    else if (changed || !S2.done) { draw(t); if (S2.still ? t > (RM ? TLT.rm : 0) : t >= TLT.done + .2) S2.done = true; }
+  };
+  requestAnimationFrame(loop);
+}
+
+/* ---------- 제목: 먹이 한지에 스며들듯 쓰이고, 낙관이 찍힌다 ---------- */
+function titleInk(root) {
+  if (RM) { root.classList.add('ttl-still'); return; }
+  root.classList.add('ttl-anim');
+  const h1 = root.querySelector('.game-title'), fl = root.querySelector('#ttl-bleed'); if (!h1 || !fl) return;
+  const dm = fl.querySelector('feDisplacementMap'), gb = fl.querySelector('feGaussianBlur'), t0 = performance.now() + 150, D = 1700;
+  h1.style.filter = 'url(#ttl-bleed)';
+  const step = now => { const k = Math.min(1, Math.max(0, (now - t0) / D)), e = 1 - Math.pow(1 - k, 3); dm.setAttribute('scale', (20 * (1 - e) + 1).toFixed(2)); gb.setAttribute('stdDeviation', (4.5 * (1 - e)).toFixed(2)); if (k < 1 && h1.isConnected) requestAnimationFrame(step); else h1.style.filter = ''; };
+  requestAnimationFrame(step);
+}
+/* 낙관 畵帖: 게임의 도장 모양(붉은 바탕, 흰 테두리와 글자)에 닳은 자국 */
+function titleSeal() {
+  const c = mk(96, 96), x = c.getContext('2d'), R = rng(1776); x.fillStyle = '#000'; x.fillRect(0, 0, 96, 96); x.globalCompositeOperation = 'destination-out';
+  for (let i = 0; i < 70; i++) { x.globalAlpha = .25 + R() * .6; x.beginPath(); x.arc(R() * 96, R() * 96, .6 + R() * 2.2, 0, TAU); x.fill(); }
+  let url = ''; try { url = c.toDataURL(); } catch (e) {}
+  const s = h('span', { class: 'ttl-seal', 'aria-hidden': 'true' }, h('i', null, '畵'), h('i', null, '帖'));
+  if (url) s.style.setProperty('--worn', `url(${url})`);
+  return s;
+}
+const TTL_DEFS = '<svg width="0" height="0" focusable="false"><filter id="ttl-bleed" x="-12%" y="-40%" width="124%" height="180%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".045" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="20" xChannelSelector="R" yChannelSelector="G" result="d"/><feGaussianBlur in="d" stdDeviation="4.5"/></filter></svg>';
+
+/* 격자 방향이 드러나지 않도록 옥타브마다 돌린 값 잡음을 겹친다(먹이 물에 풀리는 결) */
+function inkNoise(W, H, sizes, seed) {
+  const R = rng(seed), o = new Float32Array(W * H), G = 64, g = new Float32Array(G * G).map(() => R()), hv = (i, j) => g[(j & 63) * G + (i & 63)];
+  let tw = 0;
+  sizes.forEach(([s, w], k) => {
+    const a = .6 + k * 1.13 + R(), ca = Math.cos(a) / s, sa = Math.sin(a) / s, ox = 40 + R() * 40, oy = 40 + R() * 40; tw += w;
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      const u = x * ca - y * sa + ox, v = x * sa + y * ca + oy, i = Math.floor(u), j = Math.floor(v), tx = u - i, ty = v - j, sx = tx * tx * (3 - 2 * tx), sy = ty * ty * (3 - 2 * ty);
+      o[y * W + x] += w * ((hv(i, j) * (1 - sx) + hv(i + 1, j) * sx) * (1 - sy) + (hv(i, j + 1) * (1 - sx) + hv(i + 1, j + 1) * sx) * sy);
+    }
+  });
+  for (let i = 0; i < o.length; i++) o[i] /= tw;
+  return o;
+}
+
+/* ---------- 들어가기: 먹물이 화면을 덮었다가 사랑채로 걷힌다 ---------- */
+function inkHandOff(from, go) {
+  if (inkHandOff.on) return;
+  inkHandOff.on = true;
+  const done = () => { inkHandOff.on = false; };
+  if (RM) { if (use3D()) fadeTo(1, 300, () => FONTS.then(() => { go(); fadeTo(0, 600, done); })); else FONTS.then(() => { go(); done(); }); return; }
+  const vw = innerWidth, vh = innerHeight, sc = Math.min(1, 280 / Math.max(vw, vh)), W = Math.max(32, Math.round(vw * sc)), H = Math.max(32, Math.round(vh * sc)), N = W * H;
+  const cv = mk(W, H); cv.className = 'ink-veil'; cv.setAttribute('aria-hidden', 'true'); document.body.append(cv);
+  const x = cv.getContext('2d'), img = x.createImageData(W, H), d = img.data, sm = (a, b, v) => { const t = Math.min(1, Math.max(0, (v - a) / (b - a))); return t * t * (3 - 2 * t); };
+  const r = from && from.getBoundingClientRect ? from.getBoundingClientRect() : { left: vw / 2, top: vh / 2, width: 0, height: 0 }, cx = (r.left + r.width / 2) * sc, cy = (r.top + r.height / 2) * sc;
+  /* 덮을 때는 단추에서 먹이 번져 나가고, 걷힐 때는 가운데에서부터 먹이 물에 풀리듯 결을 따라 옅어진다 */
+  const f = W * .5 / 280, nS = inkNoise(W, H, [[40 * f + 10, .66], [15 * f + 4, .26], [6, .08]], 11), nC = inkNoise(W, H, [[70 * f + 14, .62], [26 * f + 6, .3], [9, .08]], 23);
+  const dist = new Float32Array(N), cl = new Float32Array(N), hx = W / 2, hy = H / 2; let mx = 1, mc = 1e-6, lo = 1, hi = 0;
+  for (let i = 0; i < N; i++) { const px = i % W, py = (i - px) / W; dist[i] = Math.hypot(px - cx, py - cy); mx = Math.max(mx, dist[i]); cl[i] = Math.hypot((px - hx) / W, (py - hy) / H); mc = Math.max(mc, cl[i]); }
+  for (let i = 0; i < N; i++) { dist[i] = dist[i] / mx + (nS[i] - .5) * .34; cl[i] = .5 * cl[i] / mc + .5 * nC[i]; lo = Math.min(lo, cl[i]); hi = Math.max(hi, cl[i]); }
+  for (let i = 0; i < N; i++) cl[i] = (cl[i] - lo) / Math.max(1e-6, hi - lo);
+  const paint = (cover, clear) => {
+    const R0 = cover * 1.45 - .05, t = clear * 1.48 - .2;
+    for (let i = 0; i < N; i++) {
+      const dd = dist[i], core = 1 - sm(R0 - .06, R0, dd), halo = 1 - sm(R0, R0 + .16, dd); let a = Math.max(core, halo * .45), rim = 0;
+      if (clear > 0) { const e = cl[i], k = sm(e - .02, e + .24, t); rim = sm(e - .12, e + .02, t) * (1 - k); a *= 1 - k; }
+      /* 걷히는 가장자리는 젖은 먹의 테처럼 짙게, 남은 먹은 물에 풀리며 옅어진다 */
+      const o = i * 4, ink = Math.max(4, 10 + (1 - core) * 34 + clear * 30 - rim * 22); d[o] = ink + 5; d[o + 1] = ink + 1; d[o + 2] = ink - 2; d[o + 3] = Math.min(1, a * (1 - clear * .18) + rim * .25) * 255;
+    }
+    x.putImageData(img, 0, 0);
+  };
+  const ease = k => k * k * (3 - 2 * k);
+  /* 한 장면이 오래 걸려도(첫 방을 짓고 처음 그릴 때) 건너뛰지 않도록 프레임마다 조금씩만 나아간다 */
+  const run = (dur, f, then) => { let k = 0, last = performance.now(); const st = now => { k = Math.min(1, k + Math.min(67, Math.max(0, now - last)) / dur); last = now; f(k); if (k < 1) requestAnimationFrame(st); else then(); }; requestAnimationFrame(st); };
+  paint(0, 0);
+  run(600, k => paint(ease(k), 0), () => { paint(1.15, 0); FONTS.then(() => { try { go(); } finally { requestAnimationFrame(() => requestAnimationFrame(() => run(700, k => paint(1.2, ease(k)), () => { cv.remove(); done(); }))); } }); });
+}
 /* ================= 수첩, 힌트, 안내도 ================= */
 const fmt = s => `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
 function cardEl(id) {
@@ -3306,34 +3616,41 @@ function renderEnding() {
 
 /* ================= 시작 화면 ================= */
 let draftName = '';
+/* 시작 화면의 조각들. 이름 칸과 단추는 처음부터 바로 쓸 수 있다(그림이 그려지기를 기다리지 않는다) */
 function titleParts() {
   const saved = load();
   const inProgress = saved && saved.phase !== 'title';
   const inp = h('input', { id: 'player-name', type: 'text', maxlength: '40', placeholder: '예) 2학년 3반 4모둠', value: draftName, autocomplete: 'off' });
   inp.addEventListener('input', () => { draftName = inp.value; });
   const start = h('button', { class: 'btn primary' }, '화첩관에 들어가기');
-  start.addEventListener('click', () => { const n = inp.value.trim(), cl = S.classic; S = fresh(); S.name = n; S.classic = cl; S.phase = 'play'; save(); if (use3D()) fadeTo(1, 300, () => { render(); fadeTo(0, 700); }); else { render(); window.scrollTo(0, 0); } });
+  start.addEventListener('click', () => { if (inkHandOff.on) return; const n = inp.value.trim(), cl = S.classic; S = fresh(); S.name = n; S.classic = cl; S.phase = 'play'; save(); inkHandOff(start, () => { render(); if (!use3D()) window.scrollTo(0, 0); }); });
   const cont = inProgress ? h('button', { class: 'btn' }, `이어서 하기 · ${saved.name || '이름 없음'} · ${fmt(saved.elapsed)}`) : null;
-  cont && cont.addEventListener('click', () => { const cl = S.classic; S = saved; S.classic = cl; render(); window.scrollTo(0, 0); });
-  const head = h('div', null,
-    h('h1', { class: 'game-title' }, '단원의 화첩', h('span', { class: 'fr' }, '檀園 畵帖 · 김홍도 방탈출')),
-    h('div', { class: 'story' },
-      p_('미술반 체험학습으로 한옥 기념관 ‘단원 화첩관’을 찾았다. 조선 후기 화가 단원 김홍도의 그림 속 장면들을 마당과 방마다 되살려 놓은 곳이다.'),
-      p_('그런데 전시실 서안에 펼쳐 두었던 「단원 풍속도첩」 복제본의 실이 풀려 버렸다. 화첩을 묶어 두던 낙관(도장) 일곱 개도 집 안팎으로 흩어졌다. 문 닫는 북이 둥 울리고 대문이 잠긴다. 사랑채 문갑 위에 봉투 하나.'),
-      h('p', { style: { fontFamily: 'var(--f-hand)', fontSize: '1.7rem', color: 'var(--rose)', lineHeight: '1.3' } }, '“화첩을 다시 묶어 줄 사람에게.”')),
-    h('div', { class: 'facts-line' }, h('span', null, h('b', null, '35~40분')), h('span', null, '마당과 방 ', h('b', null, '8'), '곳'), h('span', null, '낙관 ', h('b', null, '7'), '개'), h('span', null, '만날 작품 ', h('b', null, String(CARD_ORDER.length)), '점'), h('span', null, '곳마다 힌트 ', h('b', null, '3'), '단계')));
-  const card = h('div', { class: 'start-card' },
+  cont && cont.addEventListener('click', () => { if (inkHandOff.on) return; const cl = S.classic; S = saved; S.classic = cl; inkHandOff(cont, () => { render(); window.scrollTo(0, 0); }); });
+  const slip = h('div', { class: 'ttl-slip' }, h('h1', { class: 'game-title' }, '단원의 화첩'), titleSeal());
+  const sub = h('div', { class: 'ttl-sub' }, h('p', { class: 'fr' }, '檀園 畵帖 · 김홍도 방탈출'), h('p', { class: 'ttl-quote' }, '“화첩을 다시 묶어 줄 사람에게.”'));
+  const note = h('div', { class: 'ttl-note' },
+    p_('미술반 체험학습으로 한옥 기념관 ‘단원 화첩관’을 찾았다. 조선 후기 화가 단원 김홍도의 그림 속 장면들을 마당과 방마다 되살려 놓은 곳이다.'),
+    p_('그런데 전시실 서안에 펼쳐 두었던 「단원 풍속도첩」 복제본의 실이 풀려 버렸다. 화첩을 묶어 두던 낙관(도장) 일곱 개도 집 안팎으로 흩어졌다. 문 닫는 북이 둥 울리고 대문이 잠긴다. 사랑채 문갑 위에 봉투 하나.'));
+  const facts = h('div', { class: 'facts-line' }, h('span', null, h('b', null, '35~40분')), h('span', null, '마당과 방 ', h('b', null, '8'), '곳'), h('span', null, '낙관 ', h('b', null, '7'), '개'), h('span', null, '만날 작품 ', h('b', null, String(CARD_ORDER.length)), '점'), h('span', null, '곳마다 힌트 ', h('b', null, '3'), '단계'));
+  const card = h('div', { class: 'start-card ttl-card' },
     h('label', { for: 'player-name' }, '이름 또는 모둠 이름 (탈출 기록에 남습니다)'), inp, start, cont,
     saved && saved.phase === 'end' && lightOK() ? h('button', { class: 'btn small', type: 'button', onclick: e => enterLight(e.currentTarget) }, '빛의 방 다시 보기') : null,
     h('button', { class: 'btn', onclick: openTeacher }, '교사용 안내 · 정답'),
     h('p', { class: 'tiny' }, '진행 상황은 이 기기의 브라우저에만 저장되고 어디로도 보내지 않습니다. 화첩관과 지기의 쪽지는 이야기를 위해 지어낸 것입니다. 그림 이미지는 위키미디어 공용의 퍼블릭 도메인 자료입니다.'));
-  return { head, card };
+  return { slip, sub, note, facts, card };
+}
+/* 시작 화면 한 장: 그림 자리(장식이라 읽지 않음)를 사이에 두고 제목, 이름 칸, 이야기 */
+function titleView(is2d) {
+  const P0 = titleParts();
+  const root = h('div', { class: 'ttl' + (is2d ? ' is-2d' : '') }, h('div', { class: 'ttl-defs', 'aria-hidden': 'true', html: TTL_DEFS }), P0.slip, P0.sub,
+    h('div', { class: 'ttl-hero', 'aria-hidden': 'true' }, is2d ? null : h('div', { class: 'ttl-ph' })), P0.card, P0.note, P0.facts);
+  titleLayout(root);
+  return root;
 }
 function renderTitle() {
+  if (app.querySelector(':scope > .ttl')) return;
   topEl = null; app.innerHTML = '';
-  const hero = h('div', { class: 'title-hero' }, paint((c, w, hh) => hasArt('gunseon') ? drawArtAt(c, w, hh, 'gunseon', .5) : paintInkLand(c, w, hh), 1500, 500, { cls: '', label: '김홍도의 군선도. 신선들이 줄지어 물을 건너는 그림' }));
-  const parts = titleParts();
-  app.append(h('section', { class: 'wrap title-screen' }, hero, h('div', { class: 'title-grid' }, parts.head, parts.card)));
+  const root = titleView(true); app.append(root); titleStage2D(root); titleInk(root);
 }
 function openTeacher() {
   openSheet('교사용 안내', '敎師用', b => {
@@ -3413,9 +3730,10 @@ document.addEventListener('visibilitychange', () => { if (document.hidden) save(
 function boot(data) {
   const saved = (data && data.v === 1) ? data : null;
   if (saved && saved.phase !== 'title') { S = saved; }
-  FONTS = Promise.all([loadFonts(), loadArt()]);
+  ARTP = loadArt(); ARTP.then(() => { ART_DONE = true; });
+  FONTS = Promise.all([loadFonts(), ARTP]);
   FONTS.then(() => { Object.keys(bannerCache).forEach(k => delete bannerCache[k]); Object.keys(TX).forEach(k => { TX[k].dispose && TX[k].dispose(); delete TX[k]; }); Object.keys(REP).forEach(k => delete REP[k]); if (!use3D()) { if (S.phase === 'title') renderTitle(); else { renderMain(); repaintAll(); } } else repaintAll(); });
-  if (use3D()) { app.innerHTML = '<p class="loading">화첩관 대문을 여는 중…</p>'; FONTS.then(() => render()); } else render();
+  render();
 }
 boot(null);
 })();
